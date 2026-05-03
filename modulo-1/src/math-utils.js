@@ -51,11 +51,10 @@ export function calcularDesviacionEstandar(datos: number[]): number | null {
  * @returns Array sin valores atípicos o null si no hay suficientes datos
  */
 export function filtrarAtipicos(datos: number[], limite: number = 1.5): number[] | null {
-  if (datos.length < 4) return null; // Se necesitan al menos 4 datos para IQR
+  if (datos.length < 4) return null;
   
   const ordenado = [...datos].sort((a, b) => a - b);
   
-  // Calcular cuartiles
   const q1 = ordenado[Math.floor(ordenado.length * 0.25)];
   const q3 = ordenado[Math.floor(ordenado.length * 0.75)];
   const iqr = q3 - q1;
