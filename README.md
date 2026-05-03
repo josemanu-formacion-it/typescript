@@ -1,368 +1,247 @@
-# TypeScript Módulo 1: Sistema de Análisis Estadístico
+# Módulo 1: Inicialización y Lógica Pura
 
-## 📌 Descripción
+**Parte de:** [TypeScript - Fase 4](../README.md)
 
-Implementación de un módulo de análisis estadístico robusto utilizando **TypeScript con tipado estricto**. Este proyecto es una introducción práctica a los fundamentos de TypeScript en el contexto de una aplicación empresarial real.
+## 📌 Descripción General
 
-### ¿Por qué TypeScript?
+Este módulo introduce los **fundamentos de TypeScript** a través de la implementación de un sistema de análisis estadístico. Es la primera fase de una progresión de 3 módulos que culmina en el desarrollo de una interfaz React completamente tipada.
 
-En aplicaciones de gran escala, JavaScript presenta vulnerabilidades:
-- **Errores en tiempo de ejecución** no detectados hasta producción
-- **Falta de contrato de código** (no es claro qué parámetros acepta una función)
-- **Refactorización arriesgada** sin seguridad de tipos
+### Propósito del Módulo
 
-TypeScript **resuelve estos problemas** mediante:
-1. **Compilación estática**: Detecta errores antes de ejecutar
-2. **Documentación viva**: El tipo es la documentación
-3. **Soporte de IDE**: Autocompletado y refactorización inteligente
-4. **Transpilación cero-overhead**: El código generado es JavaScript puro
+Configurar un entorno TypeScript con tipado estricto y crear funciones matemáticas robustas que demuestren cómo TypeScript previene errores comunes en JavaScript mediante validación de tipos en tiempo de compilación.
 
 ---
 
-## 🏗️ Arquitectura del Proyecto
+## 🎯 ¿Qué vamos a hacer?
+
+En este módulo:
+
+1. **Configurar TypeScript** con modo estricto (`tsconfig.json`)
+2. **Implementar funciones de análisis estadístico** (media, mediana, desviación estándar, etc.)
+3. **Tipar correctamente** parámetros y retornos de funciones
+4. **Compilar código TypeScript** a JavaScript puro
+5. **Documentar decisiones arquitectónicas** del proyecto
+
+---
+
+## 🏗️ Estructura del Proyecto
 
 ```
 modulo-1/
 ├── src/
-│   ├── math-utils.ts          # Módulo de funciones estadísticas
-│   ├── types.ts               # Definiciones de tipos e interfaces
-│   └── index.ts               # Punto de entrada con ejemplos de uso
-├── dist/                      # JavaScript compilado (generado por tsc)
+│   ├── math-utils.ts          # Funciones estadísticas
+│   ├── types.ts               # Definiciones de tipos
+│   └── index.ts               # Ejemplos de uso
+├── dist/                      # Código compilado a JavaScript
 ├── docs/                      # Documentación adicional
-├── tsconfig.json              # Configuración del compilador TypeScript
+├── tsconfig.json              # Configuración de TypeScript
 ├── package.json               # Dependencias del proyecto
 └── README.md                  # Este archivo
 ```
 
----
-
-## 🛠️ Funciones Implementadas
-
-### 1. `calcularMedia(datos: number[]): number | null`
-Calcula el promedio aritmético de un conjunto de datos.
-
-```typescript
-const media = calcularMedia([10, 20, 30]); // 20
-const mediaVacia = calcularMedia([]);      // null
-```
-
-**Justificación de diseño:**
-- Retorna `null` si el array está vacío (no puede calcularse media de nada)
-- Tipo `number | null` indica explícitamente el posible resultado nulo
-- Bajo `strict: true`, el compilador obliga a verificar si es `null` antes de operar
+**Explicación:**
+- `src/` → Tu código TypeScript (lo que escribes)
+- `dist/` → JavaScript generado (lo que se ejecuta)
+- `types.ts` → Define las estructuras de datos (interfaces)
+- `math-utils.ts` → Contiene las funciones de cálculo
 
 ---
 
-### 2. `calcularMediana(datos: number[]): number | null`
-Encuentra el valor central de un conjunto ordenado.
+## 🛠️ Tecnologías Utilizadas
 
-```typescript
-const mediana1 = calcularMediana([3, 1, 2]);        // 2
-const mediana2 = calcularMediana([1, 2, 3, 4]);     // 2.5
-const medianaVacia = calcularMediana([]);           // null
-```
-
-**Justificación de diseño:**
-- Para arrays **impares**: retorna el elemento central
-- Para arrays **pares**: retorna el promedio de los dos centrales
-- Demuestra **control de flujo exhaustivo**
+| Herramienta | Para qué sirve |
+|---|---|
+| **TypeScript** | Lenguaje que añade tipos a JavaScript |
+| **Node.js** | Entorno para ejecutar código JavaScript fuera del navegador |
+| **npm** | Gestor de dependencias y paquetes |
+| **tsx** | Ejecuta código TypeScript directamente sin compilación manual |
+| **tsc** | Compilador oficial de TypeScript (incluido en npm install) |
 
 ---
 
-### 3. `calcularDesviacionEstandar(datos: number[]): number | null`
-Mide la dispersión de los datos respecto a la media.
+## 📦 Instalación
 
-**Fórmula:** σ = √(Σ(xᵢ - μ)² / n)
-
-```typescript
-const desv = calcularDesviacionEstandar([10, 20, 30]); // 8.16
+### Paso 1: Navega a la carpeta del módulo
+```bash
+cd modulo-1
 ```
 
-**Justificación de diseño:**
-- Validación: retorna `null` si el array está vacío
-- Cálculo: utiliza `reduce()` para acumular diferencias cuadráticas
-- Importancia: es la métrica base para detectar outliers
+### Paso 2: Instala las dependencias
+```bash
+npm install
+```
+
+Esto instala TypeScript y las herramientas necesarias basadas en `package.json`.
 
 ---
 
-### 4. `filtrarAtipicos(datos: number[], desviacionesPermitidas: number): number[]`
-Filtra valores anómalos (outliers) basándose en desviación estándar.
+## 🚀 Cómo ejecutar el código
 
-```typescript
-const datos = [10, 12, 15, 14, 13, 100, 11, 12];
-const filtrados = filtrarAtipicos(datos, 2);
-// Elimina 100 porque está a más de 2 desviaciones estándar de la media
+### Opción A: Ejecutar directamente con tsx (recomendado)
+```bash
+npx tsx src/index.ts
 ```
 
-**Justificación de diseño:**
-- Si un valor está a más de X desviaciones de la media, se considera atípico
-- Parámetro `desviacionesPermitidas` controla sensibilidad
-- Común en preprocesamiento de datos en Machine Learning
+**Ventaja:** No necesitas compilar manualmente, se ejecuta el TypeScript directamente.
+
+### Opción B: Compilar primero, luego ejecutar
+```bash
+npx tsc
+node dist/index.js
+```
+
+**Ventaja:** Puedes ver el JavaScript generado en la carpeta `dist/`.
 
 ---
 
-### 5. `generarEstadisticas(datos: number[]): EstadisticasResumen | null`
-Genera un informe completo de estadísticas.
+## 📊 Funciones Implementadas
 
-```typescript
-const stats = generarEstadisticas([10, 15, 20, 25, 30]);
-// {
-//   media: 20,
-//   mediana: 20,
-//   desviacionEstandar: 7.07,
-//   minimo: 10,
-//   maximo: 30,
-//   cantidad: 5
-// }
+Se implementarán 5 funciones estadísticas clave:
+
+| Función | ¿Qué hace? |
+|---|---|
+| `calcularMedia()` | Promedio de un conjunto de números |
+| `calcularMediana()` | Valor central de un conjunto ordenado |
+| `calcularDesviacionEstandar()` | Mide cuánto varían los datos |
+| `filtrarAtipicos()` | Elimina valores extraños (outliers) |
+| `generarEstadisticas()` | Crea un informe completo con todas las métricas |
+
+Todas están tipadas con TypeScript para garantizar que se usan correctamente.
+
+---
+
+## 💡 ¿Por qué TypeScript?
+
+### El problema con JavaScript puro:
+
+```javascript
+// JavaScript: esto "funciona" pero es un error
+function suma(a, b) {
+  return a + b;
+}
+
+suma("10", "20"); // Retorna "1020" en lugar de 30 ❌
 ```
 
-**Justificación de diseño:**
-- Demuestra uso de **interfaces** para contratos de datos
-- Encapsula lógica múltiple en un único objeto de retorno
-- Patrón común en APIs REST
+### La solución con TypeScript:
+
+```typescript
+// TypeScript: el compilador lo rechaza antes de ejecutar
+function suma(a: number, b: number): number {
+  return a + b;
+}
+
+suma("10", "20"); // ERROR en compilación ✅
+```
+
+**Beneficio:** Los errores se detectan durante el desarrollo, no en producción.
 
 ---
 
 ## 🔧 Configuración TypeScript
 
-El archivo `tsconfig.json` utiliza opciones **estrictas**:
+El archivo `tsconfig.json` configura cómo TypeScript debe compilar tu código:
 
-```json
-{
-  "compilerOptions": {
-    "target": "ES2022",
-    "module": "NodeNext",
-    "strict": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "skipLibCheck": true,
-    "resolveJsonModule": true
-  },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist"]
-}
-```
+- **`strict: true`** → Activa todas las comprobaciones de seguridad
+- **`target: ES2022`** → JavaScript moderno como salida
+- **`outDir: ./dist`** → Dónde guardar el código compilado
+- **`rootDir: ./src`** → Dónde buscar el código fuente
 
-### Opciones críticas explicadas:
-
-| Opción | Significado |
-|--------|------------|
-| `strict: true` | Activa: noImplicitAny, strictNullChecks, strictFunctionTypes, etc. |
-| `target: ES2022` | El código transpilado será JavaScript moderno |
-| `module: NodeNext` | Compatible con `import/export` en Node.js 18+ |
-| `outDir: ./dist` | El JavaScript compilado va aquí |
-
----
-
-## 🚀 Cómo Usar
-
-### Instalación
-
-```bash
-cd modulo-1
-npm install
-```
-
-### Ejecutar con tsx (sin compilar manualmente)
-
-```bash
-npx tsx src/index.ts
-```
-
-**Salida esperada:**
-```
-📊 === ANÁLISIS ESTADÍSTICO DE VENTAS ===
-
-📈 Datos originales:
-[150, 145, 155, 148, 152, 151, 149, 150, 2000, 147]
-
-📍 Cálculos individuales:
-  Media: 320.70
-  Mediana: 150.50
-  Desviación Estándar: 596.57
-
-🔍 Filtrar outliers (2 desviaciones):
-[150, 145, 155, 148, 152, 151, 149, 150, 147]
-  Se eliminaron: 1 valores atípicos
-
-📋 Estadísticas Completas:
-{
-  media: 320.7,
-  mediana: 150.5,
-  desviacionEstandar: 596.5735614181025,
-  minimo: 145,
-  maximo: 2000,
-  cantidad: 10
-}
-```
-
-### Compilar a JavaScript
-
-```bash
-npx tsc
-```
-
-Esto genera archivos `.js` en `dist/`. Puedes inspeccionar cómo desaparecen los tipos:
-
-**TypeScript (src/math-utils.ts):**
-```typescript
-export function calcularMedia(datos: number[]): number | null {
-  if (datos.length === 0) return null;
-  return datos.reduce((a, b) => a + b, 0) / datos.length;
-}
-```
-
-**JavaScript (dist/math-utils.js):**
-```javascript
-export function calcularMedia(datos) {
-  if (datos.length === 0) return null;
-  return datos.reduce((a, b) => a + b, 0) / datos.length;
-}
-```
-
-**Observación:** Los tipos desaparecen completamente. TypeScript es solo validación en desarrollo.
-
----
-
-## 📚 Conceptos Clave Demostrados
-
-### 1. Sistema de Tipos Estricto
-```typescript
-// ✅ CORRECTO: Tipo explícito
-function suma(a: number, b: number): number {
-  return a + b;
-}
-
-// ❌ ERROR: TypeScript no lo compila
-suma("10", "20");
-```
-
-### 2. Tipos Unión (Union Types)
-```typescript
-// Una función puede retornar número O null
-function valor(): number | null {
-  return Math.random() > 0.5 ? 42 : null;
-}
-
-const resultado = valor();
-// TypeScript obliga a verificar antes de usar:
-if (resultado !== null) {
-  console.log(resultado + 10); // ✅ Seguro
-}
-```
-
-### 3. Interfaces (Contratos de Datos)
-```typescript
-interface EstadisticasResumen {
-  media: number;
-  mediana: number;
-  desviacionEstandar: number;
-  minimo: number;
-  maximo: number;
-  cantidad: number;
-}
-
-// Cualquier objeto que NO cumpla esta estructura → ERROR del compilador
-const stats: EstadisticasResumen = {
-  media: 20,
-  mediana: 20,
-  desviacionEstandar: 5,
-  // ❌ ERROR: faltan 'minimo', 'maximo', 'cantidad'
-};
-```
-
-### 4. Inferencia vs. Declaración
-```typescript
-// TypeScript INFIERE el tipo automáticamente
-let numero = 10; // inferido como 'number'
-numero = "texto"; // ❌ ERROR
-
-// Pero es mejor DECLARAR explícitamente en código complejo
-const datos: number[] = [1, 2, 3];
-```
-
-### 5. Tipos Especiales
-```typescript
-// null y undefined bajo strictNullChecks
-let valor: number = null; // ❌ ERROR
-let valor: number | null = null; // ✅ CORRECTO
-
-// unknown: la alternativa segura a any
-let dato: unknown = "hola";
-if (typeof dato === 'string') {
-  console.log(dato.toUpperCase()); // ✅ Seguro
-}
-
-// void: función sin retorno
-function procesar(): void {
-  console.log("hago algo");
-}
-
-// never: función que nunca retorna
-function lanzarError(): never {
-  throw new Error("¡Error!");
-}
-```
-
----
-
-## 🔍 Ejercicios de Extensión (Opcional)
-
-1. **Implementar percentiles**: `calcularPercentil(datos, p)` para cuartiles (Q1, Q3)
-2. **Moda**: Valor que más se repite en el dataset
-3. **Rango intercuartílico (IQR)**: Método alternativo para detectar outliers
-4. **Pruebas unitarias**: Usar Jest + TypeScript para validar funciones
-5. **Validación robusta**: Crear tipos especiales (`PositiveNumber`, `NonEmptyArray`)
-6. **Documentación JSDoc**: Agregar comentarios de tipo para mejor IDE support
-
----
-
-## 📖 Referencias
-
-- [TypeScript Handbook - The Basics](https://www.typescriptlang.org/docs/handbook/)
-- [TypeScript Type System](https://www.typescriptlang.org/docs/handbook/2/types-from-types.html)
-- [Estadística Descriptiva - Wikipedia](https://es.wikipedia.org/wiki/Estad%C3%ADstica_descriptiva)
-- [Khan Academy - Statistics](https://www.khanacademy.org/math/statistics-probability)
+Esta configuración **asegura máxima seguridad** en el tipado.
 
 ---
 
 ## ✅ Requisitos de Entrega
 
-- ✅ Repositorio GitHub público: `typescript`
-- ✅ Carpeta `modulo-1` con estructura completa
-- ✅ Código TypeScript compilable sin errores (`npx tsc`)
-- ✅ Todas las 5 funciones implementadas y tipadas
-- ✅ `README.md` con documentación completa
-- ✅ Ejemplos de uso en `src/index.ts`
-- ✅ Archivo `types.ts` con interfaces definidas
-- ✅ Git commits ordenados con mensajes descriptivos
-- ✅ Código JavaScript generado en `dist/` (sin errores)
+Para considerar el módulo completado:
+
+- [ ] Carpeta `modulo-1` con toda la estructura
+- [ ] Archivo `tsconfig.json` con `strict: true`
+- [ ] 5 funciones implementadas y tipadas correctamente
+- [ ] Archivo `types.ts` con interfaces definidas
+- [ ] Archivo `index.ts` con ejemplos de uso
+- [ ] Comando `npx tsc` compila sin errores
+- [ ] Comando `npx tsx src/index.ts` ejecuta y muestra salida
+- [ ] Código JavaScript compilado en carpeta `dist/`
+- [ ] README.md con documentación del módulo
+- [ ] Commits en Git con mensajes descriptivos
 
 ---
 
-## 🎯 Checklist Final
+## 📚 Conceptos Clave
 
-Antes de considerar completado:
+Durante este módulo aprenderás:
 
-- [ ] `npm install` funciona sin errores
-- [ ] `npx tsx src/index.ts` ejecuta y muestra salida esperada
-- [ ] `npx tsc` compila sin warnings ni errors
-- [ ] Archivos en `dist/` son JavaScript puro (sin tipos)
-- [ ] Repositorio en GitHub sincronizado (git push)
-- [ ] Todos los archivos tienen headers de comentarios JSDoc
-- [ ] No hay warnings de TypeScript (strict: true activo)
+1. **Tipos primitivos**: `number`, `string`, `boolean`
+2. **Union types**: `number | null` (puede ser número O nulo)
+3. **Interfaces**: Definir la forma de los objetos
+4. **Inferencia de tipos**: TypeScript deduce tipos automáticamente
+5. **Compilación**: Convertir TypeScript a JavaScript puro
 
----
-
-## 👨‍💻 Autor
-
-**Práctica TypeScript - Módulo 1: Sistema de Análisis Estadístico**  
-Alumno: `josemanu-formacion-it`  
-Fecha: 2026-04-27  
-Repositorio: https://github.com/josemanu-formacion-it/typescript
+Cada concepto se practica a través de las funciones estadísticas.
 
 ---
 
-**¡Listo para comenzar! 🚀**
+## 🔗 Próximos Pasos
+
+Una vez completado este módulo, pasarás a:
+
+- **Módulo 2:** Modelado de datos complejo con genéricos y uniones discriminadas
+- **Módulo 3:** Desarrollo de interfaces React con TypeScript (en repositorio separado)
+
+---
+
+## 📖 Documentación Complementaria
+
+- `docs/` → Documentación técnica detallada
+- `src/types.ts` → Definición de interfaces utilizadas
+- `src/index.ts` → Ejemplos de uso de todas las funciones
+
+---
+
+## 💻 Requisitos Mínimos
+
+- **Node.js** 16 o superior
+- **npm** 8 o superior
+- Editor de código (VSCode recomendado)
+- Conexión a internet (para instalar dependencias)
+
+---
+
+## 🤔 ¿Preguntas Frecuentes?
+
+**P: ¿Necesito saber JavaScript avanzado?**  
+R: No, pero es útil conocer lo básico (variables, funciones, arrays).
+
+**P: ¿Cuánto tiempo toma completar este módulo?**  
+R: Entre 4-8 horas dependiendo de tu experiencia.
+
+**P: ¿Puedo usar otro editor además de VSCode?**  
+R: Sí, pero VSCode tiene soporte nativo para TypeScript que facilita mucho el desarrollo.
+
+**P: ¿Qué pasa con el código TypeScript después de compilar?**  
+R: Se convierte a JavaScript puro. Los tipos desaparecen completamente en el `.js`.
+
+---
+
+## 👨‍💻 Información del Proyecto
+
+**Módulo:** Inicialización y Lógica Pura  
+**Parte de:** TypeScript - Fase 4  
+**Duración estimada:** 4-8 horas  
+**Repositorio:** https://github.com/josemanu-formacion-it/typescript  
+**Rama:** main
+
+---
+
+## 📞 Soporte
+
+Si tienes dudas:
+
+1. Revisa la documentación en `docs/`
+2. Consulta los ejemplos en `src/index.ts`
+3. Revisa el TypeScript Handbook oficial
+
+---
+
+[← Volver al proyecto general](../README.md)
