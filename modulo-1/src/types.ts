@@ -1,3 +1,4 @@
+cat > src/types.ts << 'EOF'
 /**
  * Interface que define la estructura de estadísticas completas
  */
@@ -9,3 +10,4 @@ export interface EstadisticasResumen {
   maximo: number;
   cantidad: number;
 }
+EOF
