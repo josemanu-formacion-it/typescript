@@ -9,7 +9,7 @@ import {
 // Datos de ejemplo: ventas mensuales (con un outlier)
 const datosVentas: number[] = [150, 145, 155, 148, 152, 151, 149, 150, 2000, 147];
 
-console.log('📊 === ANÁLISIS ESTADÍSTICO DE VENTAS ===\n');
+console.log('📊 ==== ANÁLISIS ESTADÍSTICO DE VENTAS ====\n');
 
 console.log('📈 Datos originales:');
 console.log(`[${datosVentas.join(', ')}]\n`);
