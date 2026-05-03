@@ -1,4 +1,3 @@
-cat > src/math-utils.ts << 'EOF'
 import type { EstadisticasResumen } from './types.js';
 
 /**
@@ -93,4 +92,3 @@ export function generarEstadisticas(datos: number[]): EstadisticasResumen | null
     cantidad: datos.length
   };
 }
-EOF

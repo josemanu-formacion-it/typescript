@@ -1,4 +1,3 @@
-cat > src/index.ts << 'EOF'
 import { 
   calcularMedia, 
   calcularMediana, 
@@ -38,4 +37,3 @@ console.log(`  Mediana de array vacío: ${calcularMediana([])}`);
 console.log(`  Desv. Est. de array vacío: ${calcularDesviacionEstandar([])}`);
 console.log(`  Estadísticas de array vacío: ${JSON.stringify(generarEstadisticas([]))}`);
 console.log(`  Filtrar atípicos en array pequeño: ${JSON.stringify(filtrarAtipicos([1, 2, 3]))}`);
-EOF
