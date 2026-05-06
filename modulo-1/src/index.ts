@@ -4,7 +4,7 @@ import {
   calcularDesviacionEstandar,
   filtrarAtipicos,
   generarEstadisticas
-} from './math-utils.js';
+} from '../../lib/math-utils.js';
 
 // Datos de ejemplo: ventas mensuales (con un outlier)
 const datosVentas: number[] = [150, 145, 155, 148, 152, 151, 149, 150, 2000, 147];
