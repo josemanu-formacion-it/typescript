@@ -155,7 +155,7 @@ José Manuel - Formación IT
 
 ## 📅 Fecha
 
-Fase 4 - 2024/2025
+Fase 4 - Abril/Mayo 2026
 
 ---
 
