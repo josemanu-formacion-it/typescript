@@ -1,0 +1,25 @@
+{
+  "name": "modulo-2-typescript",
+  "version": "1.0.0",
+  "description": "Módulo 2: Modelado de Datos Complejo, Patrones y Genéricos",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx src/index.ts",
+    "build": "tsc",
+    "check": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "keywords": [
+    "typescript",
+    "uniones-discriminadas",
+    "genéricos",
+    "interfaces"
+  ],
+  "author": "José Manuel",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.3.0",
+    "tsx": "^4.7.0"
+  }
+}
