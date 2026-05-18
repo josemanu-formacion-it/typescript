@@ -55,5 +55,11 @@ export function generarReporte(estado: EstadoMatricula): string {
     
     case "FINALIZADA":
       return `✅ Matrícula finalizada con nota media: ${estado.notaMedia.toFixed(2)}`;
+    
+    default:
+      // Análisis exhaustivo: Si se añade un nuevo tipo a EstadoMatricula 
+      // y no se maneja aquí, TypeScript arrojará un error en tiempo de compilación.
+      const _comprobacionExhaustiva: never = estado;
+      throw new Error(`Estado no manejado: ${_comprobacionExhaustiva}`);
   }
 }
