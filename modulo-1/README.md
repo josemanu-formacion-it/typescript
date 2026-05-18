@@ -23,9 +23,7 @@ Implementación de un **módulo de análisis estadístico** utilizando TypeScrip
 ```
 modulo-1/
 ├── src/
-│   ├── math-utils.ts          # Funciones estadísticas
-│   ├── types.ts               # Definiciones de tipos
-│   └── index.ts               # Ejemplos de uso
+│   └── index.ts               # Ejemplos de uso e implementación
 ├── dist/                      # Código compilado
 ├── docs/
 │   └── analisis-estadistico.md
@@ -34,19 +32,22 @@ modulo-1/
 └── README.md
 ```
 
+**Nota:** Este módulo utiliza utilidades compartidas ubicadas en la carpeta raíz `lib/`:
+- `lib/math-utils.ts`: Funciones estadísticas compartidas.
+- `lib/types.ts`: Definiciones de tipos comunes.
+
 ---
 
 ## 🛠️ Requisitos de Instalación
 
-### Paso 1: Inicializar proyecto
+### Paso 1: Instalar dependencias
 
+En la carpeta raíz del proyecto:
 ```bash
-cd modulo-1
-npm init -y
+npm install
 ```
 
-### Paso 2: Instalar dependencias
-
+O dentro de `modulo-1`:
 ```bash
 npm install --save-dev typescript tsx
 ```
@@ -194,94 +195,30 @@ generarEstadisticas([10, 15, 20, 25, 30]);
 
 ---
 
-## 📝 Archivos a Crear
-
-### `src/types.ts`
-
-Define las interfaces utilizadas.
-
-**Contenido mínimo:**
-```typescript
-export interface EstadisticasResumen {
-  media: number;
-  mediana: number;
-  desviacionEstandar: number;
-  minimo: number;
-  maximo: number;
-  cantidad: number;
-}
-```
-
 ---
 
-### `src/math-utils.ts`
-
-Implementación de las 5 funciones estadísticas.
-
-**Estructura:**
-```typescript
-import { EstadisticasResumen } from './types';
-
-export function calcularMedia(datos: number[]): number | null {
-  // Implementación
-}
-
-export function calcularMediana(datos: number[]): number | null {
-  // Implementación
-}
-
-export function calcularDesviacionEstandar(datos: number[]): number | null {
-  // Implementación
-}
-
-export function filtrarAtipicos(datos: number[], desviacionesPermitidas: number): number[] {
-  // Implementación
-}
-
-export function generarEstadisticas(datos: number[]): EstadisticasResumen | null {
-  // Implementación
-}
-```
-
----
+## 📝 Archivos Clave
 
 ### `src/index.ts`
 
-Ejemplos de uso de las funciones.
+Este archivo actúa como el punto de entrada para los ejemplos del Módulo 1. Importa funciones de la librería central (`lib/math-utils.ts`) y muestra su uso con datos reales y casos límite.
 
-**Estructura mínima:**
+**Ejemplo de importación:**
 ```typescript
-import {
-  calcularMedia,
-  calcularMediana,
-  calcularDesviacionEstandar,
-  filtrarAtipicos,
-  generarEstadisticas
-} from './math-utils';
-
-// Ejemplo 1: Datos de prueba
-const datosVentas = [150, 145, 155, 148, 152, 151, 149, 150, 2000, 147];
-
-// Ejemplo 2: Calcular cada función
-console.log('Media:', calcularMedia(datosVentas));
-console.log('Mediana:', calcularMediana(datosVentas));
-console.log('Desviación Estándar:', calcularDesviacionEstandar(datosVentas));
-
-// Ejemplo 3: Filtrar outliers
-const filtrados = filtrarAtipicos(datosVentas, 2);
-console.log('Filtrados:', filtrados);
-
-// Ejemplo 4: Generar informe completo
-const estadisticas = generarEstadisticas(datosVentas);
-console.log('Estadísticas:', estadisticas);
+import { 
+  calcularMedia, 
+  calcularMediana, 
+  generarEstadisticas 
+} from '../../lib/math-utils.js';
 ```
 
 ---
 
 ## 🚀 Ejecución
 
-### Ejecutar directamente (sin compilar)
+### Ejecutar ejemplos directamente (sin compilar)
 
+Desde la carpeta `modulo-1`:
 ```bash
 npx tsx src/index.ts
 ```
@@ -291,8 +228,6 @@ npx tsx src/index.ts
 ```bash
 npx tsc
 ```
-
-Genera archivos en `dist/`.
 
 ### Verificar tipos sin compilar
 
@@ -357,16 +292,13 @@ let fecha = new Date();  // TypeScript infiere que es 'Date'
 ## ✅ Requisitos de Entrega
 
 - [ ] Carpeta `modulo-1` con estructura completa
-- [ ] `src/types.ts` con interfaz EstadisticasResumen
-- [ ] `src/math-utils.ts` con las 5 funciones implementadas
-- [ ] `src/index.ts` con ejemplos de uso
+- [ ] `src/index.ts` con ejemplos de uso e importaciones desde `lib/`
 - [ ] `tsconfig.json` con `strict: true`
 - [ ] `package.json` con dependencias
-- [ ] `dist/` generado (archivos `.js` compilados)
 - [ ] `npx tsc` compila sin errores
 - [ ] `npx tsc --noEmit` sin advertencias
 - [ ] `npx tsx src/index.ts` ejecuta correctamente
-- [ ] README.md completo
+- [ ] README.md actualizado
 - [ ] Commits en Git con mensajes descriptivos
 
 ---
