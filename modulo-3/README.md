@@ -1,73 +1,52 @@
-# React + TypeScript + Vite
+# Módulo 3: Ecosistemas Modernos y React con TypeScript
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este módulo representa la culminación del curso, donde aplicamos TypeScript en un entorno de desarrollo frontend moderno utilizando React y Vite.
 
-Currently, two official plugins are available:
+## Objetivos del Módulo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Integración con React:** Desarrollo de componentes funcionales utilizando Hooks y Props con tipado estricto.
+- **Tipos de Utilidad:** Aplicación práctica de `Partial`, `Readonly`, `Pick`, `Omit` y `Record`.
+- **Genéricos Avanzados:** Creación de componentes UI reutilizables y agnósticos al tipo de dato.
+- **Librerías Externas:** Consumo de librerías de terceros (`Luxon`) con sus respectivos archivos de declaración de tipos (`.d.ts`).
+- **Análisis Exhaustivo:** Uso del tipo `never` para garantizar que todos los casos de una unión discriminada sean manejados.
 
-## React Compiler
+## Requisitos Previos
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Node.js instalado.
+- Haber completado los módulos 1 y 2.
 
-## Expanding the ESLint configuration
+## Instalación
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+1. Navega al directorio del módulo:
+   ```bash
+   cd modulo-3
+   ```
+2. Instala las dependencias:
+   ```bash
+   npm install
+   ```
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Scripts Disponibles
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- `npm run dev`: Inicia el servidor de desarrollo de Vite.
+- `npm run build`: Compila el proyecto para producción.
+- `npm run preview`: Previsualiza la versión de producción localmente.
+- `npm run check`: (Opcional) Ejecuta `tsc --noEmit` para verificar tipos en todo el proyecto.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Estructura del Proyecto
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- `src/components/DataTable.tsx`: Componente de tabla genérico y editable.
+- `src/utils/date-utils.ts`: Utilidades de fecha utilizando Luxon.
+- `src/App.tsx`: Punto de entrada de la aplicación UI con ejemplos de tipos de utilidad.
+- `docs/arquitectura-final.md`: Documentación técnica detallada sobre las decisiones de diseño.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Conceptos Clave Implementados
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### DataTable Genérico
+El componente `DataTable<T>` utiliza genéricos para renderizar cualquier tipo de datos, validando las claves de las columnas mediante `keyof T`.
+
+### Gestión de Estado con Partial
+El estado de edición utiliza `Partial<T>`, lo que permite que el usuario edite propiedades de forma incremental sin violar la integridad del tipo original.
+
+### Seguridad con Never
+Se ha implementado el patrón de chequeo exhaustivo en la lógica de negocio para prevenir regresiones al añadir nuevos tipos a las uniones.

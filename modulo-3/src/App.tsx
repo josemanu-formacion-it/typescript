@@ -1,122 +1,87 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { useState } from 'react';
+import './App.css';
+import { DataTable, type ColumnConfig } from './components/DataTable';
+import { calcularDiferenciaDias } from './utils/date-utils';
 
-function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+// Interfaz Servidor (del enunciado)
+interface Servidor {
+  id: string;
+  ip: string;
+  puerto: number;
+  estado: 'ACTIVO' | 'INACTIVO' | 'MANTENIMIENTO';
+  ultimaRevision: string; // ISO Date
 }
 
-export default App
+// Tipo de utilidad: Para actualizar solo puerto y estado, omitiendo IP (inmutable)
+type DatosActualizacionServidor = Partial<Omit<Servidor, "ip">>;
+
+function App() {
+  const [servidores, setServidores] = useState<Servidor[]>([
+    { id: '1', ip: '192.168.1.1', puerto: 8080, estado: 'ACTIVO', ultimaRevision: '2024-05-01' },
+    { id: '2', ip: '10.0.0.5', puerto: 3000, estado: 'MANTENIMIENTO', ultimaRevision: '2024-05-10' },
+    { id: '3', ip: '172.16.0.20', puerto: 5432, estado: 'INACTIVO', ultimaRevision: '2024-04-15' },
+  ]);
+
+  const columnas: ColumnConfig<Servidor>[] = [
+    { key: 'id', label: 'ID' },
+    { key: 'ip', label: 'Dirección IP' },
+    { key: 'puerto', label: 'Puerto' },
+    { key: 'estado', label: 'Estado' },
+    { key: 'ultimaRevision', label: 'Última Revisión' },
+  ];
+
+  const handleSave = (item: Partial<Servidor>) => {
+    // Demostración de tipo de utilidad: DatosActualizacionServidor
+    const actualizacion: DatosActualizacionServidor = {
+      puerto: item.puerto ? Number(item.puerto) : undefined,
+      estado: item.estado as Servidor['estado'],
+    };
+
+    console.log('Simulando actualización de servidor (Omitiendo IP):', actualizacion);
+
+    setServidores(prev => prev.map(s => s.id === item.id ? { ...s, ...item } as Servidor : s));
+  };
+
+  const hoy = new Date();
+  
+  return (
+    <div className="App" style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
+      <header>
+        <h1>Módulo 3: Ecosistemas Modernos y React</h1>
+        <p>Panel de Administración de Servidores (TypeScript Estricto)</p>
+      </header>
+
+      <main>
+        <section>
+          <h2>Gestión de Servidores</h2>
+          <DataTable<Servidor> 
+            data={servidores} 
+            columns={columnas} 
+            onSave={handleSave} 
+          />
+        </section>
+
+        <section style={{ marginTop: '40px', backgroundColor: '#f9f9f9', padding: '20px', borderRadius: '8px' }}>
+          <h2>Cálculos de Mantenimiento (Librería Externa: Luxon)</h2>
+          <ul>
+            {servidores.map(s => {
+              const dias = calcularDiferenciaDias(s.ultimaRevision, hoy);
+              return (
+                <li key={s.id}>
+                  Servidor <strong>{s.ip}</strong>: Revisado hace <strong>{dias}</strong> días.
+                  {dias > 30 && <span style={{ color: 'red', marginLeft: '10px' }}>⚠️ Requiere revisión inmediata</span>}
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+      </main>
+
+      <footer style={{ marginTop: '50px', borderTop: '1px solid #ccc', paddingTop: '10px' }}>
+        <p>© 2026 - Laboratorio de TypeScript Fase 4</p>
+      </footer>
+    </div>
+  );
+}
+
+export default App;
